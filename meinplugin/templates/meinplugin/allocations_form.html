@@ -1,0 +1,50 @@
+{% plugin_extends "InvenTree/index.html" %}
+{% load i18n plugin_helpers static %}
+
+{% block content %}
+<div class="container-fluid">
+    <h3>{% trans "Neue Bestandszuweisung" %}</h3>
+    
+    <form method="post">
+        {% csrf_token %}
+        
+        <div class="alert alert-info">
+            {% blocktrans %}
+            Bitte wählen Sie das Teil, den Kunden und das Zeitfenster für die Zuweisung
+            {% endblocktrans %}
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header"><b>{% trans "Zuweisungsdaten" %}</b></div>
+                    <div class="card-body">
+                        {{ form.as_p }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header"><b>{% trans "Verfügbarkeit" %}</b></div>
+                    <div class="card-body">
+                        <div id="availability-chart"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-3">
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-save"></i> {% trans "Speichern" %}
+            </button>
+            <a href="{% url 'plugin:meinplugin:allocations_list' %}" class="btn btn-danger">
+                <i class="fas fa-times"></i> {% trans "Abbrechen" %}
+            </a>
+        </div>
+    </form>
+</div>
+
+{% plugin_static "meinplugin/js/datepicker.js" %}
+{% plugin_static "meinplugin/css/forms.css" %}
+{% endblock %}

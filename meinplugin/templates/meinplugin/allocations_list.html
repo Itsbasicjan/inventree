@@ -1,0 +1,48 @@
+{% plugin_extends "InvenTree/index.html" %}
+{% load i18n plugin_helpers %}
+
+{% block content %}
+<div class="container-fluid">
+    <h3>{% trans "Aktive Bestandszuweisungen" %}</h3>
+    
+    <div class="mb-3">
+        <a href="{% url 'plugin:meinplugin:allocations_create' %}" class="btn btn-success">
+            <i class="fas fa-plus"></i> {% trans "Neue Zuweisung" %}
+        </a>
+    </div>
+
+    <table class="table table-striped table-condensed">
+        <thead class="thead-dark">
+            <tr>
+                <th>{% trans "Teil" %}</th>
+                <th>{% trans "Menge" %}</th>
+                <th>{% trans "Kunde" %}</th>
+                <th>{% trans "Zeitfenster" %}</th>
+                <th>{% trans "Notizen" %}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for allocation in allocations %}
+            <tr>
+                <td>{{ allocation.part.full_name }}</td>
+                <td>{{ allocation.quantity }}</td>
+                <td>{{ allocation.customer.name }}</td>
+                <td>
+                    {{ allocation.start_date|date:"SHORT_DATETIME_FORMAT" }}<br>
+                    -<br>
+                    {{ allocation.end_date|date:"SHORT_DATETIME_FORMAT" }}
+                </td>
+                <td>{{ allocation.notes|truncatechars:40|default:"-" }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5" class="text-muted text-center">
+                    {% trans "Keine aktiven Zuweisungen gefunden" %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% plugin_static "meinplugin/js/allocations.js" %}
+{% endblock %}
