@@ -27,3 +27,4 @@ pip install meinplugin
 # inventree
 # inventree
 # inventree
+# inventree
